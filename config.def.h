@@ -1100,6 +1100,8 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_r,          setlayout,              {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,          setlayout,              {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,          setlayout,              {.v = &layouts[2]} },
+	{ MODKEY,                       XK_e,          setlayout,              {.v = &layouts[3]} },
+	{ MODKEY,                       XK_c,          setlayout,              {.v = &layouts[4]} },
 	#if COLUMNS_LAYOUT
 	{ MODKEY,                       XK_c,          setlayout,              {.v = &layouts[3]} },
 	#endif // COLUMNS_LAYOUT
