@@ -1,6 +1,8 @@
 /* See LICENSE file for copyright and license details. */
 #include <X11/XF86keysym.h>
 
+#define HOME_PATH "/home/duskyelf/"
+
 /* Helper macros for spawning commands */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 #define CMD(...)   { .v = (const char*[]){ __VA_ARGS__, NULL } }
@@ -907,16 +909,18 @@ static const Key on_empty_keys[] = {
 };
 #endif // ON_EMPTY_KEYS_PATCH
 
+#define HOTKEYS(cmd) { .v = (const char*[]){ HOME_PATH ".config/scripts/dwm-hotkeys.sh", cmd, NULL } }
+
 static const Key keys[] = {
 
 	/* modifier                     key            function                argument */
 	// Custom key bindings
-	{ 0, XF86XK_MonBrightnessUp,    spawn, SHCMD("brightnessctl set 2%+")},
-	{ 0, XF86XK_MonBrightnessDown,  spawn, SHCMD("brightnessctl set 2%-")},
-	{ 0, XF86XK_AudioMute,          spawn, SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle")},
-	{ 0, XF86XK_AudioLowerVolume,   spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5%")},
-	{ 0, XF86XK_AudioRaiseVolume,   spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5%")},
-	{ 0, XK_Print,                  spawn, SHCMD("maim -s | xclip -selection clipboard -t image/png -i")},
+	{ 0, XF86XK_MonBrightnessUp,    spawn,         HOTKEYS("brightness-up")},
+	{ 0, XF86XK_MonBrightnessDown,  spawn,         HOTKEYS("brightness-down")},
+	{ 0, XF86XK_AudioMute,          spawn,         HOTKEYS("volume-mute")},
+	{ 0, XF86XK_AudioLowerVolume,   spawn,         HOTKEYS("volume-down")},
+	{ 0, XF86XK_AudioRaiseVolume,   spawn,         HOTKEYS("volume-up")},
+	{ 0, XK_Print,                  spawn,         HOTKEYS("screenshot")},
 	#if KEYMODES_PATCH
 	{ MODKEY,                       XK_Escape,     setkeymode,             {.ui = COMMANDMODE} },
 	#endif // KEYMODES_PATCH
