@@ -524,13 +524,13 @@ static const Rule rules[] = {
 #if PERTAG_PATCH
 static const MonitorRule monrules[] = {
 	/* monitor  tag   layout  mfact  nmaster  showbar  topbar */
-	{  1,       -1,   2,      -1,    -1,       0,      -1     }, // don't show bar on screenpad
+	{  1,       -1,   3,      -1,     0,       0,      -1     }, // screenbad plus
 	{  -1,      -1,   0,      -1,    -1,      -1,      -1     }, // default
 };
 #else
 static const MonitorRule monrules[] = {
 	/* monitor  layout  mfact  nmaster  showbar  topbar */
-	{  1,       2,      -1,    -1,       0,      -1     }, // don't show bar on screenpad
+	{  1,       3,      -1,     0,       0,      -1     }, // screenpad plus
 	{  -1,      0,      -1,    -1,      -1,      -1     }, // default
 };
 #endif // PERTAG_PATCH
