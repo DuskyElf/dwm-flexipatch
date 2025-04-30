@@ -520,18 +520,21 @@ static const Rule rules[] = {
 	#endif // SCRATCHPADS_PATCH
 };
 
+static const char *screenpad_on[]  = { HOME_PATH ".config/scripts/screenpad-on.sh", NULL };
+static const char *screenpad_off[]  = { HOME_PATH ".config/scripts/screenpad-off.sh", NULL };
+
 #if MONITOR_RULES_PATCH
 #if PERTAG_PATCH
 static const MonitorRule monrules[] = {
-	/* monitor  tag   layout  mfact  nmaster  showbar  topbar */
-	{  1,       -1,   3,      -1,     0,       0,      -1     }, // screenbad plus
-	{  -1,      -1,   0,      -1,    -1,      -1,      -1     }, // default
+	/* monitor activate      deactivate     tag   layout  mfact  nmaster  showbar  topbar */
+	{  1,      screenpad_on, screenpad_off, -1,   3,      -1,     0,       0,      -1     }, // screenbad plus
+	{  -1,     NULL,         NULL,          -1,   0,      -1,    -1,      -1,      -1     }, // default
 };
 #else
 static const MonitorRule monrules[] = {
-	/* monitor  layout  mfact  nmaster  showbar  topbar */
-	{  1,       3,      -1,     0,       0,      -1     }, // screenpad plus
-	{  -1,      0,      -1,    -1,      -1,      -1     }, // default
+	/* monitor activate      deactivate     layout  mfact  nmaster  showbar  topbar */
+	{  1,      screenpad_on, screenpad_off, 3,      -1,     0,       0,      -1     }, // screenbad plus
+	{  -1,     NULL,         NULL,          0,      -1,    -1,      -1,      -1     }, // default
 };
 #endif // PERTAG_PATCH
 #endif // MONITOR_RULES_PATCH

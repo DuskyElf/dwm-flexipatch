@@ -465,6 +465,10 @@ typedef struct Pertag Pertag;
 struct Monitor {
 	char ltsymbol[16];
 	float mfact;
+	#if MONITOR_RULES_PATCH
+	const char **activate;
+	const char **deactivate;
+	#endif // MONITOR_RULES_PATCH
 	#if FLEXTILE_DELUXE_LAYOUT
 	int ltaxis[4];
 	int nstack;
@@ -627,6 +631,8 @@ typedef struct {
 #if MONITOR_RULES_PATCH
 typedef struct {
 	int monitor;
+	const char **activate;
+	const char **deactivate;
 	#if PERTAG_PATCH
 	int tag;
 	#endif // PERTAG_PATCH
@@ -1679,6 +1685,12 @@ createmon(void)
 			m->lt[1] = &layouts[1 % LENGTH(layouts)];
 			strncpy(m->ltsymbol, layouts[layout].symbol, sizeof m->ltsymbol);
 
+			m->activate = mr->activate;
+			m->deactivate = mr->deactivate;
+
+			// deactivate in the starting
+			spawn(&(Arg){ .v = m->deactivate });
+
 			if (mr->mfact > -1)
 				m->mfact = mr->mfact;
 			if (mr->nmaster > -1)
@@ -2164,6 +2176,12 @@ focusmon(const Arg *arg)
 		return;
 	if ((m = dirtomon(arg->i)) == selmon)
 		return;
+	#if MONITOR_RULES_PATCH
+	if (!m->clients)
+		spawn(&(Arg){ .v = m->activate });
+	if (!selmon->clients)
+		spawn(&(Arg){ .v = selmon->deactivate });
+	#endif // MONITOR_RULES_PATCH
 	#if LOSEFULLSCREEN_PATCH
 	sel = selmon->sel;
 	selmon = m;
@@ -4222,6 +4240,10 @@ tagmon(const Arg *arg)
 	if (!c || !mons->next)
 		return;
 	dest = dirtomon(arg->i);
+	#if MONITOR_RULES_PATCH
+	if (!dest->clients)
+		spawn(&(Arg){ .v = dest->activate });
+	#endif // MONITOR_RULES_PATCH
 	#if SEAMLESS_RESTART_PATCH && SAVEFLOATS_PATCH
 	savewindowfloatposition(c, c->mon);
 	restored = restorewindowfloatposition(c, dest);
